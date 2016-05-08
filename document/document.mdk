@@ -1,0 +1,77 @@
+Title         : 网站性能优化
+Author        : Author:Q
+Logo          : false
+HTML Meta   : http-equiv="refresh" content="30" charset="utf-8"
+
+[TITLE]
+[TOC]
+# 缓存
+1. 条件GET---默认自带
+ * &rarr;If-modified-since:wed,22,2006,4:15pm
+ * &larr;Last-modified:
+2. Expires:wed,22,2006,4:15pm---需要设置 
+  * 缺点：要求服务器与客户端的时钟严格同步，过期后发送新的过来
+3. Expires改进 cache-control:max-age ---需要设置
+ * 要求：HTTP1.1
+ * 改进：不再像Expires那样需要时钟同步，只需在max-age中设置好倒计时。
+ * 使Expires像cache-control:max-age可以使用Apache的mod_expires插件。
+4. ETag 设置为禁止---需要设置
+ * 服务器唯一标识在分布式集群服务器下很难命中缓存
+
+代理缓存
+
+* 缓存响应的各个版本，例如有压缩的，无压缩的 Vary:Accept-Encoding,useragent
+* 禁用缓存 Vary:* 或者 Cache-control:Private
+
+问题：
+
+* 缓存之后，你更新了那个文件，而这时候客户端还会使用缓存的旧文件。怎么处理这种情况？
+
+ 答:在书写html的时候，在上面加上版本号，服务器更新文件后，更新html中引用文件的版本号，这样客户端的缓存就无法命中了，强制从服务器下载更新后的文件。
+
+# 其它优化
+
+1. 减少HTTP请求：使用图像拼合技术、文件合并
+2. 使用CDN：自动寻找最佳网络线路，加快请求响应速度
+3. css放在head里：可以防止FOUC(无样式内容闪烁) 
+ * 原理：浏览器用DOM树和样式表进行渲染(rending)，样式表放在底部，会引起重新渲染
+4. script放在底部：防止阻塞并行下载
+ * 原理：javascript肯能使用document.write来生成页面，例如两个js中都用了document.write()并行下载并执行的时候会产生冲突。
+ * 备选方法1---分次下载:设置cookie后，等第二次再下载
+ * 备选方法2---ajax注入下载
+5. 不使用CSS表达式
+ * 原理：css 表达式的计算过于频繁，每次鼠标移动都会产生成千上万的表达式计算
+6. 使用外部的css和javascript
+ * 原理：使他们可以被缓存 
+7. 用去空白、混淆来精简javascript
+ * 压缩：去掉空格、tab缩进等无意义的字符  要求：javascript书写式不能省略空格，否则会出现语法错误
+ * 混淆：用长单词代替短单词，这样文件的体积会减小，且非常不利于阅读，好处是可以防止别人破解你的代码
+8. 去重javascript
+ * 如果是多人协作开发的话，很可能一个库引用了两份
+9. 使用gzip来压缩传输
+10. 避免重定向
+ * 跟踪技术---知道用户离开你的网站之后去了哪里
+ 1. url参数
+ 2. 空白的img标签-beacon信标
+11. 避免过度DNS查找
+
+# 进阶
+1. 线程长时间运行导致的界面响应卡顿
+ * 使用Work线程或者Gear插件来实现多线程
+ * 使用定时器，有间断的执行脚本或者挂起脚本
+2. 脚本分为初始化和非初始化两部分，非初始化部分可以延迟加载 
+ * script标签的defer属性
+3. 无阻塞脚本
+ * ajax(XHR) 注入下载 eval 或者修改script标签的src属性
+4. 脚本合并
+ * 这样可以减少HTTP请求数目
+5. javascript的执行效率
+ * 二分查找
+ * 避免使用字符串+运算，使用字符串数组后join的方法
+ * 使用事件委托:利用事件冒泡机制，减少重复代码
+6. 图像优化
+ * 压缩 裁剪 降低分辨率
+
+# 参考书籍
+1. 《高性能网站建设指南》--Steve Souders&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;俗称:狗书
+2. 《高性能网站建设进阶指南》--Steve Souders &nbsp;&nbsp;俗称：鹿书
