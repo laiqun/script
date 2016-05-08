@@ -1,0 +1,80 @@
+Title         : SEO---search engine optimization
+Author        : laiqun@msn.cn
+Logo          : false
+
+[TITLE]
+
+# 什么是SEO？
+ * 有利于搜索引擎收录和排序
+ * 识别最不好的: flash 和 JS
+
+
+# SEO人员分类？
+ * 白帽SEO
+ * 黑帽SEO 虽然排名靠前，收录多，但都是垃圾和广告
+
+#  内容SEO优化
+ * 标题 关键字 描述 了解网站定位和做什么的
+ * 内容优化
+ * Robot.txt 搜索引擎访问网站时要查看的第一个文件。
+  * 规定什么文件可以看，什么不可看 Allow Disallow。
+  * 规定网站地图
+ * 网站地图
+ * 外链引用
+
+#  网站结构SEO优化
+ * 首页链接数量<100
+ * 扁平目录
+![seo]
+  
+ * 导航SEO 
+  * 使用面包屑导航 好处：1.提示当前位置 2.让用户容易理解组织样式
+ * 每个页面不要超过100k
+ * 典型网站结构
+![struct]
+[struct]: images/struct.png "struct" { width:auto; max-width:90% }
+
+分页的SEO 
+
+1. 首页 上页 下页 尾页 缺点：层次太深
+2. 首页 2 3 …… 10 尾页  有利于爬虫搜索 
+3. 首页 2 3 …… 10 下拉菜单 更有利于爬虫搜索
+#  网站代码优化
+
+`<title>`
+
+`<meta keywords>`
+
+`<meta description>`
+
+* body标签内的优化
+
+`<h1>` `<h2>`其他的不要用  ，字体太大怎么办，用CSS来调大小
+
+ul无序列表
+
+ol 有序列表
+
+dl 数据列表
+
+强调`<strong >` `<em>`倾斜   对应的无语义标签  `<i>`  `<b>`
+
+最无语义的标签`<div>` `<span>`
+
+`<a>` 需要加title连接说明，不属于自己网站内的连接，加上rel= nofollow防止爬虫跑出自己的网站
+
+`<p>` 表示段落 `<br/>`是用在`<p>`标签内的
+ 
+调节距离不要使用&nbsp;使用margin padding 和text-indent
+
+`<table>`使用`<description>`来定表格名
+
+`<img>`使用alt来注释说明
+
+重要内容放在HTML最上面，用样式表来调节显示位置
+
+重要内容不要用JS，不用iframe
+
+对于不显示但有意义的元素：用z-index 或者移动到浏览器显示范围外;用display:none 爬虫会过滤内容
+
+[seo]: images/seo.jpg "seo" { width:auto; max-width:90% }
